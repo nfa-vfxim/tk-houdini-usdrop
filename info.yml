@@ -1,0 +1,30 @@
+configuration:
+
+    work_file_template:
+        type: template
+        description: >
+            A reference to a template which locates a Houdini work file on
+            disk. This is used to drive the version and optionally the name of
+            output files.
+        fields: context, version, [name]
+
+    output_publish_template:
+        type: template
+        description: >
+            A reference to a template which defines where the published
+            bgeo cache will be copied to.
+        fields: context, version, name, *
+
+
+requires_shotgun_fields:
+
+display_name: "USD ROP Node"
+description: "Support for the Toolkit USD ROP node in Houdini."
+
+requires_shotgun_version:
+requires_core_version: "v0.12.5"
+requires_engine_version: "v1.7.1"
+
+supported_engines: [tk-houdini]
+
+frameworks:
