@@ -14,10 +14,6 @@ Support for the Toolkit USD ROP node in Houdini.
 |------------------|--------------|----------------|
 | -                | v0.12.5      | v1.7.1         |
 
-**ShotGrid fields:** -
-
-**Frameworks:** -
-
 ## Configuration
 
 ### Templates
