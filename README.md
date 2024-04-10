@@ -18,11 +18,9 @@ Support for the Toolkit USD ROP node in Houdini.
 
 ### Templates
 
-| Name                      | Description                                                                                                                                      | Default value | Fields                    |
-|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------|
-| `work_file_template`      | A reference to a template which locates a Houdini work file on disk. This is used to drive the version and optionally the name of output files.
- |               | context, version, [name]  |
-| `output_publish_template` | A reference to a template which defines where the published bgeo cache will be copied to.
-                                                       |               | context, version, name, * |
+| Name                      | Description                                                                                                                                     | Default value | Fields                    |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|---------------|---------------------------|
+| `work_file_template`      | A reference to a template which locates a Houdini work file on disk. This is used to drive the version and optionally the name of output files. |               | context, version, [name]  |
+| `output_publish_template` | A reference to a template which defines where the published bgeo cache will be copied to.                                                       |               | context, version, name, * |
 
 
