@@ -11,8 +11,8 @@ class TkHoudiniUSDRopNode(sgtk.platform.Application):
         tk_houdini_usdrop = self.import_module("tk_houdini_usdrop")
         self.handler = tk_houdini_usdrop.TkUSDRopNodeHandler(self)
 
-    def execute_export(self, node):
-        self.handler.execute_export(node)
+    def execute_export(self, node, is_background_export):
+        self.handler.execute_export(node, is_background_export)
 
     def get_nodes(self):
         # Get all nodes from this session
