@@ -8,11 +8,11 @@ class TkUSDRopNodeHandler(object):
     def __init__(self, app):
         self.app = app
 
-    def execute_export(self, node):
+    def execute_export(self, node, is_background_export):
         inputs = node.inputs()
         if len(inputs) > 0:
             file_path = self.calculate_path(node)
-            self.execute_usd_export(node, file_path)
+            self.execute_usd_export(node, file_path, is_background_export)
         else:
             message = "ShotGrid USD ROP node not connected to any input."
             self.app.logger.debug(message)
@@ -27,6 +27,16 @@ class TkUSDRopNodeHandler(object):
         # Set fields
         fields = work_template.get_fields(current_filepath)
         fields["name"] = node.parm("name").eval()
+
+        # Validate name parm is alphanumeric
+        regex = re.compile("^[a-zA-Z0-9_-]*$")
+        match = regex.match(fields["name"])
+        if not match:
+            hou.ui.displayMessage(
+                "You may only use letters and numbers for the publish name!",
+                severity=hou.severityType.Error,
+            )
+            return
 
         # Apply fields
         file_path = usd_template.apply_fields(fields).replace(os.sep, "/")
@@ -88,8 +98,7 @@ class TkUSDRopNodeHandler(object):
 
         return layer
 
-    def execute_usd_export(self, node, file_path):
-
+    def execute_usd_export(self, node, file_path, is_background_export):
         # Set all SGTK Configure Layers node to the correct path
         layer_nodes = (
             hou.lopNodeTypeCategory().nodeType("sgtk_configurelayer").instances()
@@ -98,10 +107,21 @@ class TkUSDRopNodeHandler(object):
             self.populate_configure_layers(layer_nodes, file_path)
 
             # Set filepath on SGTK USD ROP node to the publish path
+            if file_path is None:
+                self.app.logger.error(
+                    "File path is None. An invalid publish name was probably used."
+                )
+                return
+
             node.parm("path").set(file_path)
+
             try:
                 # Execute the USD Export
-                node.node("usd_rop").parm("execute").pressButton()
+                if is_background_export:
+                    hou.hipFile.save()
+                    node.node("usd_rop").parm("executebackground").pressButton()
+                else:
+                    node.node("usd_rop").parm("execute").pressButton()
                 self.app.logger.debug("Exported USD %s." % file_path)
 
             except Exception as e:
