@@ -101,7 +101,7 @@ class TkUSDRopNodeHandler(object):
     def execute_usd_export(self, node, file_path, is_background_export):
         # Set all SGTK Configure Layers node to the correct path
         layer_nodes = (
-            hou.lopNodeTypeCategory().nodeType("sgtk_configurelayer").instances()
+            hou.lopNodeTypeCategory().nodeType("sgtk_configure_layer").instances()
         )
         if self.check_layer_nodes(layer_nodes):
             self.populate_configure_layers(layer_nodes, file_path)
